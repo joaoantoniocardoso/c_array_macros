@@ -50,12 +50,12 @@
 #define ARRAY2D_GAIN_DIRECT(a, b, c) ({             \
     for(i = 0; i < ARRAY2D_ROWS(a); i++){           \
         for(j = 0; j < ARRAY2D_COLS(a); j++){       \
-            result[i][j] = a[i][j] * b;             \
+            c[i][j] = a[i][j] * b;                  \
 }   }   })
 #define ARRAY2D_GAIN_REVERSE(a, b, c) ({            \
     for(i = ARRAY2D_ROWS(a); i--;){                 \
         for(j = ARRAY2D_COLS(a); j--;){             \
-            result[i][j] = a[i][j] * b;             \
+            c[i][j] = a[i][j] * b;                  \
 }   }   })
 #define ARRAY2D_MUL_DIRECT(a, b, c) ({              \
     for(i = 0; i < ARRAY2D_ROWS(a); i++){           \

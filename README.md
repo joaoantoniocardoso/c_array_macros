@@ -5,13 +5,13 @@ Este repositório contem um conjunto de macros em C para as operações fundamen
 # Sobre
 
 ARRAY2D aqui são MATRIZES:  
-  x[k][i][j], onde:  
+  `x[k][i][j]`, onde:  
     **i** é a linha  
     **j** é a coluna  
 
 ARRAYND aqui são MATRIZES NO TEMPO:  
   Interpretar como um vetor(tempo) de matrizes(x,y):  
-    x[k][i][j], onde:  
+    `x[k][i][j]`, onde:  
       **i** é a linha  
       **j** é a coluna  
       **k** é a amostra no tempo  

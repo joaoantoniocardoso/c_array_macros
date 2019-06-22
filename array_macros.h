@@ -20,7 +20,7 @@
 
 /*
 * ARRAY2D aqui são MATRIZES:
-*   x[k][i][j], onde:
+*   x[i][j], onde:
 *       i é a linha
 *       j é a coluna
 *

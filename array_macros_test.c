@@ -390,9 +390,7 @@ void array2d_gain_macro(void)
     TOC();
 
     printf("---\n");
-
 }
-
 
 void arraynd_gain_macro(void)
 {
@@ -482,7 +480,6 @@ void arraynd_gain_macro(void)
     TOC();
 
     printf("---\n");
-
 }
 
 void array2d_mul_macro(void)
@@ -556,7 +553,6 @@ void array2d_mul_macro(void)
     TOC();
 
     printf("---\n");
-
 }
 
 void arraynd_mul_macro(void)
@@ -664,6 +660,296 @@ void arraynd_mul_macro(void)
     TOC();
 
     printf("---\n");
+}
+
+void array2d_mulsum_macro(void)
+{
+    printf("Test::array2d_mulsum_macro\n");
+
+    float a[2][3] = {
+        // Amostra 0
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    float b[3][2] = {
+        // Amostra 0
+        {7, 8}, 
+        {9, 10},
+        {11, 12}
+    };
+
+    float result[2][2] = {
+        // Amostra 0
+        {58, 64}, 
+        {139, 154}
+    };
+
+    float expected_result[2][2] = {
+        // Amostra 0
+        {116, 128}, 
+        {278, 308}
+    };
+
+    // NORMAL ORDER
+    printf("Direct Order\n");
+    ARRAY2D_INDEX_INIT();
+    TIC();
+    ARRAY2D_MULSUM_DIRECT(a, b, result);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result); i++){
+        for(j = 0; j < ARRAY2D_COLS(result); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result[i][j],
+                expected_result[i][j]);
+            if(result[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    printf("---\n");
+
+
+    float result2[2][2] = {
+        // Amostra 0
+        {58, 64}, 
+        {139, 154}
+    };
+
+    // REVERSE ORDER
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_MULSUM_REVERSE(a, b, result2);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result2); i++){
+        for(j = 0; j < ARRAY2D_COLS(result2); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result2[i][j],
+                expected_result[i][j]);
+            if(result2[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    printf("---\n");
+}
+
+
+void array2d_gainsum_macro(void)
+{
+    printf("Test::array2d_gainsum_macro\n");
+
+    float a[2][3] = {
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    float b = 2;
+
+    float expected_result[2][3] = {
+        {3, 6, 9}, 
+        {12, 15, 18}
+    };
+
+    float result[2][3] = {
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    // NORMAL ORDER
+    printf("Direct Order\n");
+    ARRAY2D_INDEX_INIT();
+    TIC();
+    ARRAY2D_GAINSUM_DIRECT(a, b, result);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result); i++){
+        for(j = 0; j < ARRAY2D_COLS(result); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result[i][j],
+                expected_result[i][j]);
+            if(result[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    printf("---\n");
+
+    float result2[2][3] = {
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    // REVERSE ORDER
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_GAINSUM_REVERSE(a, b, result2);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result2); i++){
+        for(j = 0; j < ARRAY2D_COLS(result2); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result2[i][j],
+                expected_result[i][j]);
+            if(result2[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    printf("---\n");
+}
+
+void array2d_zero_macro(void)
+{
+    printf("Test::array2d_zero_macro\n");
+
+    float a[2][3] = {
+        // Amostra 0
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    float expected_result[2][2] = {
+        // Amostra 0
+        {0, 0},
+        {0, 0},
+    };
+    
+    // DIRECT ORDER
+    ARRAY2D_INDEX_INIT();
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_ZERO_DIRECT(a);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(a); i++){
+        for(j = 0; j < ARRAY2D_COLS(a); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                a[i][j],
+                expected_result[i][j]);
+            if(a[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    float b[2][3] = {
+        // Amostra 0
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    // REVERSE ORDER
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_ZERO_REVERSE(b);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(b); i++){
+        for(j = 0; j < ARRAY2D_COLS(b); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                b[i][j],
+                expected_result[i][j]);
+            if(b[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+}
+
+void array2d_copy_macro(void)
+{
+    printf("Test::array2d_copy_macro\n");
+
+    float a[2][3] = {
+        // Amostra 0
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    float expected_result[2][3] = {
+        // Amostra 0
+        {1, 2, 3}, 
+        {4, 5, 6}
+    };
+
+    float result[2][3];
+    
+    // DIRECT ORDER
+    ARRAY2D_INDEX_INIT();
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_COPY_DIRECT(a, result);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result); i++){
+        for(j = 0; j < ARRAY2D_COLS(result); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result[i][j],
+                expected_result[i][j]);
+            if(result[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
+
+    float result2[2][3];
+
+    // REVERSE ORDER
+    printf("Reverse Order\n");
+    TIC();
+    ARRAY2D_COPY_REVERSE(a, result2);
+    TAC();
+
+    // PRINT AND ASSERT
+    for(i = 0; i < ARRAY2D_ROWS(result2); i++){
+        for(j = 0; j < ARRAY2D_COLS(result2); j++){
+            printf("\tresult[%d][%d] = %f ?= %f", i, j, 
+                result2[i][j],
+                expected_result[i][j]);
+            if(result2[i][j] == expected_result[i][j]){
+                printf(" ----> ok!\n");
+            }else{
+                printf(" ----> failed! :(\n");
+            }
+        }
+    }
+    TOC();
 
 }
 
@@ -672,6 +958,11 @@ int main(void)
 {
     array2d_test();
     arraynd_test();
+
+    array2d_zero_macro();
+    // arraynd_zero_macro();        -> not implemented yet
+
+    array2d_copy_macro();
 
     arraynd_loop();
     arraynd_loop_reverse();
@@ -682,8 +973,14 @@ int main(void)
     array2d_gain_macro();
     arraynd_gain_macro();
 
+    array2d_gainsum_macro();
+    // arraynd_gainsum_macro();     -> not implemented yet
+
     array2d_mul_macro();
     arraynd_mul_macro();
+
+    array2d_mulsum_macro();
+    // arraynd_mulsum_macro();      -> not implemented yet
 
     return 0;
 }

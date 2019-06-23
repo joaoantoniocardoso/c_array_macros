@@ -118,7 +118,7 @@
 })
 #define ARRAY2D_MULSUM_REVERSE(a, b, c) ({          \
     float d[ARRAY2D_ROWS(c)][ARRAY2D_COLS(c)];      \
-    ARRAY2D_MUL_REVERSE(a, b, c);                   \
+    ARRAY2D_MUL_REVERSE(a, b, d);                   \
     ARRAY2D_SUM_REVERSE(d, c, c);                   \
 })
 

@@ -20,8 +20,13 @@
 
 // Selects REVERSE or DIRECT order for processing loops:
 #define SUM ARRAY2D_SUM_REVERSE
+#define SUB ARRAY2D_SUB_REVERSE
 #define MUL ARRAY2D_MUL_REVERSE
 #define GAIN ARRAY2D_GAIN_REVERSE
+#define COPY ARRAY2D_COPY_REVERSE
+#define ZERO ARRAY2D_ZERO_REVERSE
+#define INT ARRAY2D_GAINSUM_REVERSE
+#define MULSUM ARRAY2D_MULSUM_REVERSE
 
 float A[2][3] = {
     {0, 1, 2},
@@ -39,9 +44,10 @@ float C[2][2] = {
     {16, 11}
 };
 
-float d = 2;
-
 float E[2][2];
+float F[2][2];
+
+float d = 2.12;
 
 int main(void)
 {
@@ -50,22 +56,36 @@ int main(void)
 
     // Temporary arrays
     float T1[2][2], T2[2][2];
+    
+    // E = A*B + C*d
+    MUL(A, B, T1);          // T1 = A*B :
+    GAIN(C, d, T2);         // T2 = C*d :
+    SUM(T1, T2, E);         // E = T1 * T2 :
 
-    // T1 = A*B :
-    MUL(A, B, T1);
+    // F = E = A*B + C*d
+    COPY(E, F);
+    
+    // T2 = 0
+    ZERO(F);
+    // F -= E = 0
+    SUB(F, E, F);
 
-    // T2 = C*d :
-    GAIN(C, d, T2);
+    // F = A*B + C*d
+    MUL(A, B, F);           // F = A*B
+    INT(C, d, F);           // F += C*d
 
-    // E = A*B + C*d = T1 * T2 :
-    SUM(T1, T2, E);
+    // F = A*B + C*d
+    GAIN(C, d, F);           // F = C*d
+    MULSUM(A, B, F);         // F += A*B
 
     // PRINT
     printf("RESULT:\n");
     for(i = 0; i < ARRAY2D_ROWS(E); i++){
         for(j = 0; j < ARRAY2D_COLS(E); j++){
-            printf("\tE[%d][%d] = %f\n", i, j, 
-                E[i][j]);
+            printf("\tE[%d][%d] = F[%d][%d] = %f = %f\n", 
+                i, j, i, j, 
+                E[i][j],
+                F[i][j]);
         }
     }
 
